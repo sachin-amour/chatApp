@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "866333012889",
+    "project_id": "amour-chat-fc143",
+    "storage_bucket": "amour-chat-fc143.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:866333012889:android:8a5f43adb27dc370831908",
+        "android_client_info": {
+          "package_name": "com.example.amour_chat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpbzvgq-GVFTS-Y03-Tqclo2P9oZt27eA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
