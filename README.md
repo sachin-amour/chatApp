@@ -1,16 +1,26 @@
-# amour_chat
+# 📱 Chat App
 
-A new Flutter project.
+A real-time chat application built with Flutter, designed for seamless messaging between users. This app supports user authentication, message persistence, and responsive UI across devices.
 
-## Getting Started
+## 🚀 Features
 
-This project is a starting point for a Flutter application.
+- 🔐 User Authentication (Email/Password or Google Sign-In)
+- 💬 Real-time messaging with Firebase Firestore
+- 📸 Image sharing and media support
+- 🟢 Online/offline status indicators
+- 📱 Responsive UI for mobile and web
+- 🔔 Push notifications (Firebase Cloud Messaging)
 
-A few resources to get you started if this is your first Flutter project:
+## 🛠️ Tech Stack
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- **Frontend:** Flutter (Dart)
+- **Backend:** Firebase (Auth, Firestore, Storage, FCM)
+- **State Management:** Provider / Riverpod / Bloc (choose one)
+- **Other Tools:** GitHub, VS Code, Android Studio
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 📦 Installation
+
+1. **Clone the repo**
+   ```bash
+   git clone https://github.com/yourusername/chat_app.git
+   cd chat_app
