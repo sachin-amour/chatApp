@@ -17,10 +17,18 @@ class _logInScreenState extends State<logInScreen> {
     return SafeArea(
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 15.0),
-        child: Column(children: [_header(),
-          Container(height: 100,width: 100,
-              child: Image.asset("assets/images/chat.png")),
-          _loginForm()]),
+        child: Column(
+          children: [
+            _header(),
+            Container(
+              height: 200,
+              width: 200,
+              child: Image.asset("assets/images/login.png"),
+            ),
+            _loginForm(),
+            _signUp(),
+          ],
+        ),
       ),
     );
   }
@@ -52,21 +60,46 @@ class _logInScreenState extends State<logInScreen> {
       ),
     );
   }
-  Widget _loginForm(){
-    return Container(
-      height: MediaQuery.of(context).size.height*0.40,
-      margin: EdgeInsets.symmetric(vertical:MediaQuery.of(context).size.height*0.05),
-      child: Form(child: Column(
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SizedBox(height: 40,),
-          customTextField( hintText: " Enter your Email",),
-          SizedBox(height: 20,),
-          customTextField( hintText: " Enter your Password",),
-        ],
-      ))
 
+  Widget _loginForm() {
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.40,
+      margin: EdgeInsets.symmetric(
+        vertical: MediaQuery.of(context).size.height * 0.05,
+      ),
+      child: Form(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            customTextField(
+              hintText: " Enter your Email",
+              height: MediaQuery.of(context).size.height * 0.1,
+            ),
+
+            customTextField(
+              hintText: " Enter your Password",
+              height: MediaQuery.of(context).size.height * 0.1,
+            ),
+            _loginBtn(),
+          ],
+        ),
+      ),
     );
+  }
+  Widget _loginBtn(){
+    return SizedBox( width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height*0.06,
+        child: MaterialButton(elevation: 1,shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),),onPressed: (){},child: Text("Login",style: TextStyle(color: Colors.black54,fontSize: 20),),color: Colors.tealAccent,));
+  }
+  Widget _signUp(){
+    return Expanded(child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+     children: [
+       Text("Don't have an account?",style: TextStyle(color: Colors.grey,fontSize: 16)),
+       TextButton(onPressed: (){}, child: Text("Sign Up",style: TextStyle(color: Colors.teal,fontSize: 20)))
+     ],
+    ));
   }
 }
