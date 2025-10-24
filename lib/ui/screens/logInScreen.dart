@@ -18,8 +18,8 @@ class _logInScreenState extends State<logInScreen> {
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 15.0),
         child: Column(children: [_header(),
-          SizedBox(height: 80,width: 80,
-              child: Image.asset("assets/images/login.png")),
+          Container(height: 100,width: 100,
+              child: Image.asset("assets/images/chat.png")),
           _loginForm()]),
       ),
     );
