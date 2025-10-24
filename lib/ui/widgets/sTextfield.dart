@@ -1,25 +1,24 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../myconstent/colors.dart';
+import '../../myconstent/colors.dart';
 
 
 class customTextField extends StatelessWidget{
-  const customTextField({super.key,this.hintText,this.onChanged, this.focusNode});
+  const customTextField({super.key,this.hintText,});
   final String? hintText;
-  final Function(String)? onChanged;
-  final FocusNode? focusNode;
+
+
   @override
   Widget build(BuildContext context) {
     return TextField(
-      onChanged: onChanged,
-        focusNode: focusNode,
+
         style: TextStyle(fontSize: 18),
         decoration: InputDecoration(
         filled: true,
         fillColor: gray,
         hintText: hintText,
-        hintStyle: TextStyle(fontSize: 18,color: Colors.grey.shade600),
+        hintStyle: TextStyle(fontSize: 14,color: Colors.grey.shade600),
 
         border: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(10)),

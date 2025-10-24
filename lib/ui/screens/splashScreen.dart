@@ -1,7 +1,8 @@
 import 'dart:async';
 
 import 'package:amour_chat/myconstent/string.dart';
-import 'package:amour_chat/ui/wrapper/wrapper.dart';
+import 'package:amour_chat/ui/screens/logInScreen.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +20,7 @@ class _splashScreenState extends State<splashScreen> {
   void  initState(){
   super.initState();
   _timer=Timer(const Duration(seconds: 2), (){
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Wrapper()));
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>logInScreen()));
   });
   }
   @override

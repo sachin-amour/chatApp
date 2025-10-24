@@ -1,116 +1,72 @@
-import 'package:amour_chat/myconstent/colors.dart';
-import 'package:amour_chat/others/extension.dart';
-import 'package:amour_chat/others/login_viewModel.dart';
-import 'package:amour_chat/ui/sTextfield.dart';
-import 'package:amour_chat/ui/screens/homeScreen.dart';
-import 'package:amour_chat/ui/screens/singupScreen.dart';
-import 'package:amour_chat/ui/services/authServices.dart';
+import 'package:amour_chat/ui/widgets/sTextfield.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
 
-class logInScreen extends StatelessWidget {
-  final bool loading=false;
+class logInScreen extends StatefulWidget {
+  @override
+  State<logInScreen> createState() => _logInScreenState();
+}
+
+class _logInScreenState extends State<logInScreen> {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<LoginViewmodel>(
-      create: (context) => LoginViewmodel(AuthService()),
-        child: Consumer<LoginViewmodel>(builder: (context, model,_) {
-      return Scaffold(
-        backgroundColor: Colors.white,
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 50),
-              child: Text(
-                "Login",
-                style: TextStyle(fontSize: 28.sp, fontWeight: FontWeight.bold),
-              ),
-            ),
-            SizedBox(height: 5),
-            Text(
-              "Please login to your account",
-              style: TextStyle(fontSize: 15.sp, color: Colors.grey.shade600),
-            ),
-            SizedBox(height: 24),
+    return Scaffold(body: _build());
+  }
 
-            Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: SizedBox(
-                width: 380,
-                child: customTextField(
-                  onChanged:model.setEmail,
-                  hintText: "Enter Email",
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: SizedBox(
-                width: 380,
-                child: customTextField(
-                  onChanged:model.setPassword,
-                  hintText: "Enter Password",
-                ),
-              ),
-            ),
+  Widget _build() {
+    return SafeArea(
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 15.0),
+        child: Column(children: [_header(),
+          SizedBox(height: 80,width: 80,
+              child: Image.asset("assets/images/login.png")),
+          _loginForm()]),
+      ),
+    );
+  }
 
-            SizedBox(height: 38),
-            SizedBox(
-              width: 380,
-              height: 55,
-              child: ElevatedButton(
-                onPressed: () async {
-                  try {
-                    await model.login();
-                    context.ShowSnackBar("user successfully logged in");
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) =>HomeScreen()),
-                    );
+  Widget _header() {
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Text(
+            " Hi, Welcome back !",
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 24,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+          Text(
+            "Hello again, you've been missed!",
+            style: TextStyle(
+              color: Colors.grey,
+              fontSize: 17,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+  Widget _loginForm(){
+    return Container(
+      height: MediaQuery.of(context).size.height*0.40,
+      margin: EdgeInsets.symmetric(vertical:MediaQuery.of(context).size.height*0.05),
+      child: Form(child: Column(
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(height: 40,),
+          customTextField( hintText: " Enter your Email",),
+          SizedBox(height: 20,),
+          customTextField( hintText: " Enter your Password",),
+        ],
+      ))
 
-                  } catch (e) {
-                  context.ShowSnackBar(e.toString());
-                }},
-                child: loading?Center(child: CircularProgressIndicator()):Text(
-                  'Login',
-                  style: TextStyle(color: Colors.white, fontSize: 23),
-                ),
-                style: ElevatedButton.styleFrom(backgroundColor: primary),
-              ),
-            ),
-            SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  " Don't have account?  ",
-                  style: TextStyle(fontSize: 15.sp, color: Colors.grey.shade600),
-                ),
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => signupScreen()),
-                    );
-                  },
-                  child: Text(
-                    "Sign up",
-                    style: TextStyle(
-                      fontSize: 17.sp,
-                      color: primary,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      );
-        }),
     );
   }
 }
