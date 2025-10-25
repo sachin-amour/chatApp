@@ -1,5 +1,7 @@
 import 'package:amour_chat/myconstent/consts.dart';
+import 'package:amour_chat/service/alert_service.dart';
 import 'package:amour_chat/service/auth.dart';
+import 'package:amour_chat/service/navigation_service.dart';
 import 'package:amour_chat/ui/widgets/sTextfield.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,13 +15,18 @@ class logInScreen extends StatefulWidget {
 class _logInScreenState extends State<logInScreen> {
   final GetIt _getIt = GetIt.instance;
   final GlobalKey<FormState>_loginFromKey= GlobalKey();
+  late NavigattionService _navigationService;
   late Authservice _authservice;
+  late AlertService _alertService;
   String? email,password;
 
   @override
   void initState(){
     super.initState();
     _authservice=_getIt.get<Authservice>();
+    _navigationService=_getIt.get<NavigattionService>();
+    _alertService=_getIt.get<AlertService>();
+
   }
 
   @override
@@ -124,9 +131,11 @@ class _logInScreenState extends State<logInScreen> {
              _loginFromKey.currentState?.save();
              bool result =await _authservice.login(email!, password!);
               if(result){
-                print(result);
+                _navigationService.pushReplacementNamed("/home");
 
-              }else{}
+              }else{
+                _alertService.showToast(message: "Invalid email or password",icon: Icons.error);
+              }
           }
 
         },child: Text("Login",style: TextStyle(color: Colors.black54,fontSize: 20),),color: Colors.tealAccent,));

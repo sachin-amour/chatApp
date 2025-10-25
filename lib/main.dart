@@ -1,7 +1,8 @@
 import 'package:amour_chat/firebase_options.dart';
+import 'package:amour_chat/service/alert_service.dart';
 import 'package:amour_chat/service/auth.dart';
 import 'package:amour_chat/service/navigation_service.dart';
-import 'package:amour_chat/ui/screens/logInScreen.dart';
+
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -21,14 +22,18 @@ Future<void> register_service() async {
   final GetIt getIt = GetIt.instance;
   getIt.registerSingleton<Authservice>(Authservice());
   getIt.registerSingleton<NavigattionService>(NavigattionService());
+  getIt.registerSingleton<AlertService>(AlertService());
 }
 
 class amour_chat extends StatelessWidget {
   final GetIt _getIt = GetIt.instance;
   late NavigattionService _navigationService;
+  late Authservice _authservice;
+
 
   amour_chat({super.key}) {
     _navigationService = _getIt.get<NavigattionService>();
+    _authservice = _getIt.get<Authservice>();
   }
 
   @override
@@ -42,7 +47,7 @@ class amour_chat extends StatelessWidget {
           useMaterial3: true,
           textTheme: GoogleFonts.poppinsTextTheme(),
         ),
-        initialRoute: "/login",
+        initialRoute: _authservice.user!=null?"/home":"/login",
         routes: _navigationService.routes,
 
       ),
