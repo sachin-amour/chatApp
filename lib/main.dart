@@ -1,29 +1,51 @@
 import 'package:amour_chat/firebase_options.dart';
+import 'package:amour_chat/service/auth.dart';
+import 'package:amour_chat/service/navigation_service.dart';
 import 'package:amour_chat/ui/screens/logInScreen.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  register_service();
   runApp(amour_chat());
 }
 
+Future<void> register_service() async {
+  final GetIt getIt = GetIt.instance;
+  getIt.registerSingleton<Authservice>(Authservice());
+  getIt.registerSingleton<NavigattionService>(NavigattionService());
+}
+
 class amour_chat extends StatelessWidget {
+  final GetIt _getIt = GetIt.instance;
+  late NavigattionService _navigationService;
+
+  amour_chat({super.key}) {
+    _navigationService = _getIt.get<NavigattionService>();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      builder: (context, child) =>
-          MaterialApp(debugShowCheckedModeBanner: false,
-            theme: ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),useMaterial3: true,
-            textTheme: GoogleFonts.poppinsTextTheme(),
-            ),
+      builder: (context, child) => MaterialApp(
+        navigatorKey: _navigationService.navigatorKey,
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+          useMaterial3: true,
+          textTheme: GoogleFonts.poppinsTextTheme(),
+        ),
+        initialRoute: "/login",
+        routes: _navigationService.routes,
 
-            home:logInScreen(),
-          ));
+      ),
+    );
   }
 }

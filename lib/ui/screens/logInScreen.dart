@@ -1,6 +1,9 @@
+import 'package:amour_chat/myconstent/consts.dart';
+import 'package:amour_chat/service/auth.dart';
 import 'package:amour_chat/ui/widgets/sTextfield.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 class logInScreen extends StatefulWidget {
   @override
@@ -8,6 +11,17 @@ class logInScreen extends StatefulWidget {
 }
 
 class _logInScreenState extends State<logInScreen> {
+  final GetIt _getIt = GetIt.instance;
+  final GlobalKey<FormState>_loginFromKey= GlobalKey();
+  late Authservice _authservice;
+  String? email,password;
+
+  @override
+  void initState(){
+    super.initState();
+    _authservice=_getIt.get<Authservice>();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(body: _build());
@@ -68,18 +82,32 @@ class _logInScreenState extends State<logInScreen> {
         vertical: MediaQuery.of(context).size.height * 0.05,
       ),
       child: Form(
+        key: _loginFromKey,
         child: Column(
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             customTextField(
-              hintText: " Enter your Email",
+              hintText: "Email",
               height: MediaQuery.of(context).size.height * 0.1,
+              validationRegEx: EMAIL_VALIDATION_REGEX,
+              onSaved: (value){
+                setState(() {
+                  email= value;
+                });
+              },
             ),
 
             customTextField(
-              hintText: " Enter your Password",
+              hintText: "Password",
               height: MediaQuery.of(context).size.height * 0.1,
+              validationRegEx: PASSWORD_VALIDATION_REGEX,
+              obscureText: true,
+              onSaved: (value){
+                setState(() {
+                  password= value;
+                });
+              },
             ),
             _loginBtn(),
           ],
@@ -91,7 +119,17 @@ class _logInScreenState extends State<logInScreen> {
     return SizedBox( width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height*0.06,
         child: MaterialButton(elevation: 1,shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),),onPressed: (){},child: Text("Login",style: TextStyle(color: Colors.black54,fontSize: 20),),color: Colors.tealAccent,));
+            borderRadius: BorderRadius.circular(20),),onPressed: ()async{
+          if(_loginFromKey.currentState?.validate()??false){
+             _loginFromKey.currentState?.save();
+             bool result =await _authservice.login(email!, password!);
+              if(result){
+                print(result);
+
+              }else{}
+          }
+
+        },child: Text("Login",style: TextStyle(color: Colors.black54,fontSize: 20),),color: Colors.tealAccent,));
   }
   Widget _signUp(){
     return Expanded(child: Row(
