@@ -1,6 +1,7 @@
 import 'package:amour_chat/firebase_options.dart';
 import 'package:amour_chat/service/alert_service.dart';
 import 'package:amour_chat/service/auth.dart';
+import 'package:amour_chat/service/media_service.dart';
 import 'package:amour_chat/service/navigation_service.dart';
 
 
@@ -23,6 +24,7 @@ Future<void> register_service() async {
   getIt.registerSingleton<Authservice>(Authservice());
   getIt.registerSingleton<NavigattionService>(NavigattionService());
   getIt.registerSingleton<AlertService>(AlertService());
+  getIt.registerSingleton<MediaService>(MediaService());
 }
 
 class amour_chat extends StatelessWidget {

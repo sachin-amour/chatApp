@@ -1,11 +1,14 @@
 import 'package:amour_chat/ui/screens/homeScreen.dart';
 import 'package:amour_chat/ui/screens/logInScreen.dart';
+import 'package:amour_chat/ui/screens/signUpScreen.dart';
 import 'package:flutter/cupertino.dart';
 class NavigattionService{
   late GlobalKey<NavigatorState> _navigatorKey;
   final Map<String,Widget Function(BuildContext)> _routes={
     "/login":(context)=>logInScreen(),
     "/home":(context)=>homeScreen(),
+    "/signup":(context)=>SignupScreen(),
+
   };
   GlobalKey<NavigatorState>? get navigatorKey=>_navigatorKey;
   Map<String,Widget Function(BuildContext)>get routes=>_routes;

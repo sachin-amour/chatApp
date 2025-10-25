@@ -125,7 +125,8 @@ class _logInScreenState extends State<logInScreen> {
   Widget _loginBtn(){
     return SizedBox( width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height*0.06,
-        child: MaterialButton(elevation: 1,shape: RoundedRectangleBorder(
+        child: MaterialButton(elevation: 1,
+          shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),),onPressed: ()async{
           if(_loginFromKey.currentState?.validate()??false){
              _loginFromKey.currentState?.save();
@@ -138,14 +139,16 @@ class _logInScreenState extends State<logInScreen> {
               }
           }
 
-        },child: Text("Login",style: TextStyle(color: Colors.black54,fontSize: 20),),color: Colors.tealAccent,));
+        },child: Text("Login",style: TextStyle(color: Colors.white,fontSize: 20),),color: Colors.teal.shade400,));
   }
   Widget _signUp(){
     return Expanded(child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
      children: [
        Text("Don't have an account?",style: TextStyle(color: Colors.grey,fontSize: 16)),
-       TextButton(onPressed: (){}, child: Text("Sign Up",style: TextStyle(color: Colors.teal,fontSize: 20)))
+       TextButton(onPressed: (){
+         _navigationService.pushNamed("/signup");
+       }, child: Text("Sign Up",style: TextStyle(color: Colors.teal,fontSize: 20)))
      ],
     ));
   }
