@@ -1,7 +1,11 @@
 import 'dart:io';
 
+import 'package:amour_chat/model/auth_model.dart';
 import 'package:amour_chat/myconstent/consts.dart';
+import 'package:amour_chat/service/alert_service.dart';
 import 'package:amour_chat/service/auth.dart';
+import 'package:amour_chat/service/database_service.dart';
+import 'package:amour_chat/service/firestore_service.dart';
 import 'package:amour_chat/service/media_service.dart';
 import 'package:amour_chat/service/navigation_service.dart';
 import 'package:amour_chat/ui/widgets/sTextfield.dart';
@@ -19,6 +23,9 @@ class _SignupScreenState extends State<SignupScreen> {
   late NavigattionService _navigationService;
   late MediaService _mediaService;
   late Authservice _authservice;
+  late CloudinaryStorageService _cloudinaryStorageService;
+  late FirestoreService _firestoreService;
+  late AlertService _alertService;
   bool isloading = false;
 
   String? email;
@@ -32,6 +39,9 @@ class _SignupScreenState extends State<SignupScreen> {
     _mediaService = getIt.get<MediaService>();
     _navigationService = getIt.get<NavigattionService>();
     _authservice = getIt.get<Authservice>();
+    _cloudinaryStorageService = getIt.get<CloudinaryStorageService>();
+    _firestoreService =getIt.get<FirestoreService>();
+    _alertService= getIt.get<AlertService>();
   }
 
   @override
@@ -187,9 +197,34 @@ class _SignupScreenState extends State<SignupScreen> {
                 selectedImage != null) {
               _signupFromKey.currentState?.save();
               bool result = await _authservice.signup(email!, password!);
-              if (result) {}
+              if (result) {
+                String? pfpURL = await _cloudinaryStorageService.uploadUserPfp(
+                  file: selectedImage!,
+                  uid: _authservice.user!.uid,
+                );
+                if (pfpURL != null) {
+                  await _firestoreService.creatUserProfile(
+                    userProfile: UserProfile(
+                    uid: _authservice.user!.uid,
+                    name: name!,
+                    pfpURL: pfpURL,
+                    ),
+                  );
+                  _alertService.showToast(message: "User registered successfully!",icon: Icons.check);
+
+                  // 3. **Navigate to the home screen**
+                  _navigationService.pushReplacementNamed("/home");
+
+                } else {
+                  // Handle PFP upload failure (e.g., alert the user, delete the auth user if necessary)
+                  print("Cloudinary PFP upload failed.");
+                  // Optional: await _authservice.deleteUser();
+                }
+
+
+              }
                 //_navigationService.pushReplacementNamed("/home");
-                print(result);
+
 
             }
           } catch (e) {
