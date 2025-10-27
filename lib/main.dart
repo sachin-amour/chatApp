@@ -45,18 +45,19 @@ class amour_chat extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      builder: (context, child) => MaterialApp(
-        navigatorKey: _navigationService.navigatorKey,
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-          useMaterial3: true,
-          textTheme: GoogleFonts.poppinsTextTheme(),
-        ),
-        initialRoute: _authservice.user!=null?"/home":"/login",
-        routes: _navigationService.routes,
+      builder: (context, child) =>
+          MaterialApp(
+            navigatorKey: _navigationService.navigatorKey,
+            debugShowCheckedModeBanner: false,
+            theme: ThemeData(
+              colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+              useMaterial3: true,
+              textTheme: GoogleFonts.poppinsTextTheme(),
+            ),
+            initialRoute: _authservice.user != null ? "/home" : "/login",
+            routes: _navigationService.routes,
 
-      ),
+          ),
     );
   }
 }

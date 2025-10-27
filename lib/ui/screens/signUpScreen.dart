@@ -212,23 +212,19 @@ class _SignupScreenState extends State<SignupScreen> {
                   );
                   _alertService.showToast(message: "User registered successfully!",icon: Icons.check);
 
-                  // 3. **Navigate to the home screen**
+                  _navigationService.goBack();
                   _navigationService.pushReplacementNamed("/home");
 
                 } else {
-                  // Handle PFP upload failure (e.g., alert the user, delete the auth user if necessary)
-                  print("Cloudinary PFP upload failed.");
-                  // Optional: await _authservice.deleteUser();
+                  throw Exception("unable to upload profile picture");
                 }
-
-
-              }
-                //_navigationService.pushReplacementNamed("/home");
-
-
+              } else {
+                throw Exception("unable to register user");
+                }
             }
           } catch (e) {
             print(e);
+            _alertService.showToast(message: "Failed to register, please try again",icon: Icons.error);
           }
           setState(() {
             isloading= false;

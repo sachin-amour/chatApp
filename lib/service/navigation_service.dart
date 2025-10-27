@@ -2,6 +2,7 @@ import 'package:amour_chat/ui/screens/homeScreen.dart';
 import 'package:amour_chat/ui/screens/logInScreen.dart';
 import 'package:amour_chat/ui/screens/signUpScreen.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 class NavigattionService{
   late GlobalKey<NavigatorState> _navigatorKey;
   final Map<String,Widget Function(BuildContext)> _routes={
@@ -15,6 +16,10 @@ class NavigattionService{
 NavigattionService(){
   _navigatorKey=GlobalKey<NavigatorState>();
 }
+void push (MaterialPageRoute route){
+  _navigatorKey.currentState?.push(route);
+}
+
 void pushNamed(String routeName){
   _navigatorKey.currentState?.pushNamed(routeName);
 }
