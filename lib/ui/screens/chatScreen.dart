@@ -128,33 +128,38 @@ class _chatScreenState extends State<chatScreen> {
 
     return chatMessages;
   }
-
   Widget _mediaMessagebtn() {
     return IconButton(
       onPressed: () async {
         File? file = await _mediaService.getImageFormGallery();
         if (file != null) {
+          // 1. Generate a consistent chat ID
           String chatID = _firestore.generateChatId(
             uid1: currentUser!.id,
             uid2: otherUser!.id,
           );
+
+          // 2. Upload image to Cloudinary and get the secure URL
           String? downloadURL = await _cloudinary.uploadImageToChat(
             file: file,
             chatId: chatID,
           );
+
           if (downloadURL != null) {
+            // 3. Create a ChatMessage object for DashChat
             ChatMessage chatMessage = ChatMessage(
               user: currentUser!,
-              text: downloadURL,
+              text: '', // Text is not needed for an image message
               createdAt: DateTime.now(),
               medias: [
                 ChatMedia(
-                  url: downloadURL,
-                  fileName: "",
+                  url: downloadURL, // The URL is here
+                  fileName: "image.jpg", // Add a simple filename
                   type: MediaType.image,
                 ),
               ],
             );
+            // 4. Send the message (which correctly extracts the URL from medias)
             _sendMessage(chatMessage);
           }
         }
@@ -162,4 +167,5 @@ class _chatScreenState extends State<chatScreen> {
       icon: const Icon(Icons.image, color: Colors.blueAccent),
     );
   }
+
 }

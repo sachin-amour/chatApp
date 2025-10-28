@@ -57,6 +57,9 @@ class CloudinaryStorageService {
   }
 
   /// Upload any image with custom folder path
+  // Inside CloudinaryStorageService class
+
+  /// Upload any image with custom folder path
   Future<String?> uploadImageToChat({
     required File file,
     required String chatId,
@@ -66,17 +69,20 @@ class CloudinaryStorageService {
       String extension = p.extension(file.path);
 
       // 2. Create a unique file name using a timestamp (or UUID for better uniqueness)
-      // We'll use a timestamp for simplicity:
       String fileName = DateTime.now().millisecondsSinceEpoch.toString();
 
-      // 3. Create the public ID including the required folder path
-      String publicId = 'users/$chatId$extension';
+      // 3. Define the folder path
+      String folderPath = 'chats/$chatId'; // Better to use a 'chats' specific folder
+
+      // 4. Create the public ID including the folder path and unique file name
+      // This ensures a unique path for every image in that chat's folder.
+      String publicId = '$folderPath/$fileName$extension';
 
       CloudinaryResponse response = await _cloudinary.uploadFile(
         CloudinaryFile.fromFile(
           file.path,
-          publicId: publicId, // Use the unique public ID
-          folder:'users/$chatId' ,
+          publicId: publicId, // Use the fully unique public ID
+          folder: folderPath, // Use the folder path
           resourceType: CloudinaryResourceType.Image,
         ),
       );
