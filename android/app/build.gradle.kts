@@ -20,9 +20,10 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
-    }
+
+        kotlinOptions {
+            jvmTarget = "1.8"
+        }
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
@@ -43,7 +44,9 @@ android {
         }
     }
 }
-
+kotlin {
+    jvmToolchain(11)
+}
 flutter {
     source = "../.."
 }

@@ -5,8 +5,6 @@ import 'package:amour_chat/service/database_service.dart';
 import 'package:amour_chat/service/firestore_service.dart';
 import 'package:amour_chat/service/media_service.dart';
 import 'package:amour_chat/service/navigation_service.dart';
-
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +15,7 @@ import 'package:google_fonts/google_fonts.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  register_service();
+  await register_service();
   runApp(amour_chat());
 }
 
@@ -36,7 +34,6 @@ class amour_chat extends StatelessWidget {
   late NavigattionService _navigationService;
   late Authservice _authservice;
 
-
   amour_chat({super.key}) {
     _navigationService = _getIt.get<NavigattionService>();
     _authservice = _getIt.get<Authservice>();
@@ -45,19 +42,26 @@ class amour_chat extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      builder: (context, child) =>
-          MaterialApp(
-            navigatorKey: _navigationService.navigatorKey,
-            debugShowCheckedModeBanner: false,
-            theme: ThemeData(
-              colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-              useMaterial3: true,
-              textTheme: GoogleFonts.poppinsTextTheme(),
-            ),
-            initialRoute: _authservice.user != null ? "/home" : "/login",
-            routes: _navigationService.routes,
-
+      designSize: const Size(375, 812),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (context, child) => MaterialApp(
+        navigatorKey: _navigationService.navigatorKey,
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
+          useMaterial3: true,
+          textTheme: GoogleFonts.poppinsTextTheme(),
+          appBarTheme: AppBarTheme(
+            elevation: 0,
+            centerTitle: false,
+            backgroundColor: Colors.teal.shade700,
+            iconTheme: const IconThemeData(color: Colors.white),
           ),
+        ),
+        initialRoute: _authservice.user != null ? "/home" : "/login",
+        routes: _navigationService.routes,
+      ),
     );
   }
 }

@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-enum MessageType { Text, Image }
+enum MessageType { Text, Image, Video }
 
 class Message {
   String? senderID;
@@ -21,6 +21,7 @@ class Message {
     sentAt = json['sentAt'];
     messageType = MessageType.values.byName(json['messageType']);
   }
+
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['senderID'] = senderID;

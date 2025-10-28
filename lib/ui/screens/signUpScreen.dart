@@ -33,6 +33,7 @@ class _SignupScreenState extends State<SignupScreen> {
   String? password;
 
   File? selectedImage;
+
   @override
   void initState() {
     super.initState();
@@ -40,8 +41,8 @@ class _SignupScreenState extends State<SignupScreen> {
     _navigationService = getIt.get<NavigattionService>();
     _authservice = getIt.get<Authservice>();
     _cloudinaryStorageService = getIt.get<CloudinaryStorageService>();
-    _firestoreService =getIt.get<FirestoreService>();
-    _alertService= getIt.get<AlertService>();
+    _firestoreService = getIt.get<FirestoreService>();
+    _alertService = getIt.get<AlertService>();
   }
 
   @override
@@ -51,31 +52,30 @@ class _SignupScreenState extends State<SignupScreen> {
 
   Widget _build() {
     return SafeArea(
-      child: Stack(
-        children:[
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 15.0),
-            child: Column(children: [_header(),
-              if(!isloading)_signupForm(),
-              if(!isloading)_login(),
-              if(isloading)
-                Expanded(
-                  child: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                )
-            ]),
-          ),
-          Positioned(
-            top: MediaQuery.of(context).size.height * -0.04,
-            right: MediaQuery.of(context).size.width * -0.03,
-            child: SizedBox(
-                width: MediaQuery.of(context).size.width * 0.55,
-                height: MediaQuery.of(context).size.width * 0.55,
-                child: Image.asset('assets/images/chatbobles.png')),
-          ),
-        ]
-      ),
+      child: Stack(children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 15.0),
+          child: Column(children: [
+            _header(),
+            if (!isloading) _signupForm(),
+            if (!isloading) _login(),
+            if (isloading)
+              Expanded(
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              )
+          ]),
+        ),
+        Positioned(
+          top: MediaQuery.of(context).size.height * -0.04,
+          right: MediaQuery.of(context).size.width * -0.03,
+          child: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.55,
+              height: MediaQuery.of(context).size.width * 0.55,
+              child: Image.asset('assets/images/chatbobles.png')),
+        ),
+      ]),
     );
   }
 
@@ -131,7 +131,6 @@ class _SignupScreenState extends State<SignupScreen> {
                 });
               },
             ),
-
             customTextField(
               hintText: "Email",
               height: MediaQuery.of(context).size.height * 0.1,
@@ -142,7 +141,6 @@ class _SignupScreenState extends State<SignupScreen> {
                 });
               },
             ),
-
             customTextField(
               hintText: "Password",
               height: MediaQuery.of(context).size.height * 0.1,
@@ -190,7 +188,7 @@ class _SignupScreenState extends State<SignupScreen> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         onPressed: () async {
           setState(() {
-            isloading=true;
+            isloading = true;
           });
           try {
             if ((_signupFromKey.currentState?.validate() ?? false) &&
@@ -203,31 +201,41 @@ class _SignupScreenState extends State<SignupScreen> {
                   uid: _authservice.user!.uid,
                 );
                 if (pfpURL != null) {
+                  // ✅ CRITICAL CHANGE: Added email field here
                   await _firestoreService.creatUserProfile(
                     userProfile: UserProfile(
-                    uid: _authservice.user!.uid,
-                    name: name!,
-                    pfpURL: pfpURL,
+                      uid: _authservice.user!.uid,
+                      name: name!,
+                      pfpURL: pfpURL,
+                      email: email!, // ← THIS IS THE KEY ADDITION
                     ),
                   );
-                  _alertService.showToast(message: "User registered successfully!",icon: Icons.check);
+                  _alertService.showToast(
+                      message: "User registered successfully!",
+                      icon: Icons.check);
 
                   _navigationService.goBack();
                   _navigationService.pushReplacementNamed("/home");
-
                 } else {
                   throw Exception("unable to upload profile picture");
                 }
               } else {
                 throw Exception("unable to register user");
-                }
+              }
+            } else {
+              // Show error if image not selected
+              _alertService.showToast(
+                  message: "Please select a profile picture",
+                  icon: Icons.error);
             }
           } catch (e) {
             print(e);
-            _alertService.showToast(message: "Failed to register, please try again",icon: Icons.error);
+            _alertService.showToast(
+                message: "Failed to register, please try again",
+                icon: Icons.error);
           }
           setState(() {
-            isloading= false;
+            isloading = false;
           });
         },
         child: Text(
